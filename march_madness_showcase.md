@@ -2,7 +2,7 @@
 title: March Madness (Basketball) Prediction with Machine Learning
 author: Ian Graham
 date: March 27, 2026
-execute: 
+execute:
   enabled: False
 jupyter: python3
 page-layout: full
@@ -12,7 +12,7 @@ number-sections: true
 
 This notebook showcases my submission to the [2026 March Madness Kaggle competition](https://www.kaggle.com/competitions/march-machine-learning-mania-2026/overview). March Madness is a basketball tournament featuring the top U.S. college teams. Sixty-four teams compete in a single-game elimination tournament broken into four rounds. It has long been a tradition in the U.S., whether basketball fan or not, to pick winners and losers and to fill out a March Madness bracket. 
 
-The Kaggle competition approaches this game within a game as an opportunity to harness historical data and machine learning models. I focussed on feature engineering, feature selection, and model optimization. My code is organized into modules to be imported below.
+The Kaggle competition approaches this game within a game as an opportunity to harness historical data and machine learning models. I focussed on feature engineering, feature selection, and model optimization. My code is organized into modules to be imported below. The repo can be found at [https://github.com/ian-null-null/march_madness](https://github.com/ian-null-null/march_madness).
 
 
 ```python
@@ -73,25 +73,6 @@ if __name__ == "__main__":
 mens_validation_results_df = pd.DataFrame(mens_validation_results).transpose()
 womens_validation_results_df = pd.DataFrame(womens_validation_results).transpose()
 
-def plot_validation_results(df, title):
-    years = df.index.astype(int)
-
-    fig, ax = plt.subplots()
-    ax.plot(years, df["logit_brier"])
-    ax.plot(years, df["xgb_brier"])
-
-    ax.legend(["Logistic Regression", "XGBoost"])
-    ax.set_xlabel("Season")
-    ax.set_ylabel("Brier Score")
-    ax.set_xlim(2004, 2025)
-    ax.set_xticks(years)  # force integer x labels
-    ax.tick_params(axis='x', rotation=45)
-    ax.grid(True)
-    ax.set_title(title)
-
-    plt.tight_layout()
-    plt.show()
-
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))
 
 years_mens = mens_validation_results_df.index.astype(int)
@@ -129,7 +110,7 @@ plt.show()
     Validation results:
 
 
-    100%|██████████| 22/22 [00:11<00:00,  1.88it/s]
+    100%|██████████| 22/22 [00:11<00:00,  1.97it/s]
 
 
     Processing womens tournament...
@@ -139,7 +120,7 @@ plt.show()
     Validation results:
 
 
-    100%|██████████| 15/15 [00:06<00:00,  2.42it/s]
+    100%|██████████| 15/15 [00:04<00:00,  3.41it/s]
 
 
 
@@ -247,6 +228,7 @@ This was a fun project and one where I could use my skills and learn some new th
 
 
 If I partake in next year's challenge there will certainly be no shortage of new things to try. Here are only a few that I've considered:
+
 - Test the other leading ensemble learners: LightGBM and CatBoost
 - Test TabPFN: A neural net optimized for tabular data
 - Implement Monte Carlo bracket simulation

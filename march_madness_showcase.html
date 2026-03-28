@@ -156,7 +156,7 @@ window.Quarto = {
 
 
 <p>This notebook showcases my submission to the <a href="https://www.kaggle.com/competitions/march-machine-learning-mania-2026/overview">2026 March Madness Kaggle competition</a>. March Madness is a basketball tournament featuring the top U.S. college teams. Sixty-four teams compete in a single-game elimination tournament broken into four rounds. It has long been a tradition in the U.S., whether basketball fan or not, to pick winners and losers and to fill out a March Madness bracket.</p>
-<p>The Kaggle competition approaches this game within a game as an opportunity to harness historical data and machine learning models. I focussed on feature engineering, feature selection, and model optimization. My code is organized into modules to be imported below.</p>
+<p>The Kaggle competition approaches this game within a game as an opportunity to harness historical data and machine learning models. I focussed on feature engineering, feature selection, and model optimization. My code is organized into modules to be imported below. The repo can be found at <a href="https://github.com/ian-null-null/march_madness">https://github.com/ian-null-null/march_madness</a>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#%%</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -214,53 +214,34 @@ window.Quarto = {
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>mens_validation_results_df <span class="op">=</span> pd.DataFrame(mens_validation_results).transpose()</span>
 <span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>womens_validation_results_df <span class="op">=</span> pd.DataFrame(womens_validation_results).transpose()</span>
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_validation_results(df, title):</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    years <span class="op">=</span> df.index.astype(<span class="bu">int</span>)</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    ax.plot(years, df[<span class="st">"logit_brier"</span>])</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    ax.plot(years, df[<span class="st">"xgb_brier"</span>])</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    ax.legend([<span class="st">"Logistic Regression"</span>, <span class="st">"XGBoost"</span>])</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">"Season"</span>)</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"Brier Score"</span>)</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    ax.set_xlim(<span class="dv">2004</span>, <span class="dv">2025</span>)</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks(years)  <span class="co"># force integer x labels</span></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    ax.grid(<span class="va">True</span>)</span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    ax.set_title(title)</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>years_mens <span class="op">=</span> mens_validation_results_df.index.astype(<span class="bu">int</span>)</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>ax1.plot(years_mens, mens_validation_results_df[<span class="st">"logit_brier"</span>],<span class="st">'-o'</span>)</span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>ax1.plot(years_mens, mens_validation_results_df[<span class="st">"xgb_brier"</span>], <span class="st">'-o'</span>)</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>ax1.legend([<span class="st">"Logistic Regression"</span>, <span class="st">"XGBoost"</span>])</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">"Season"</span>)</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"Brier Score"</span>)</span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>ax1.set_xlim(<span class="dv">2004</span>, <span class="dv">2025</span>)</span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>ax1.set_xticks(years_mens)</span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>ax1.grid(<span class="va">True</span>)</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Men's Model Validation Scores"</span>)</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>years_womens <span class="op">=</span> womens_validation_results_df.index.astype(<span class="bu">int</span>)</span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>ax2.plot(years_womens, womens_validation_results_df[<span class="st">"logit_brier"</span>], <span class="st">'-o'</span>)</span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>ax2.plot(years_womens, womens_validation_results_df[<span class="st">"xgb_brier"</span>], <span class="st">'-o'</span>)</span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>ax2.legend([<span class="st">"Logistic Regression"</span>, <span class="st">"XGBoost"</span>])</span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">"Season"</span>)</span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"Brier Score"</span>)</span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>ax2.set_xlim(<span class="dv">2011</span>, <span class="dv">2025</span>)</span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>ax2.set_xticks(years_womens)</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>ax2.grid(<span class="va">True</span>)</span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Women's Model Validation Scores"</span>)</span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">5</span>))</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>years_mens <span class="op">=</span> mens_validation_results_df.index.astype(<span class="bu">int</span>)</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>ax1.plot(years_mens, mens_validation_results_df[<span class="st">"logit_brier"</span>],<span class="st">'-o'</span>)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>ax1.plot(years_mens, mens_validation_results_df[<span class="st">"xgb_brier"</span>], <span class="st">'-o'</span>)</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>ax1.legend([<span class="st">"Logistic Regression"</span>, <span class="st">"XGBoost"</span>])</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">"Season"</span>)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"Brier Score"</span>)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>ax1.set_xlim(<span class="dv">2004</span>, <span class="dv">2025</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>ax1.set_xticks(years_mens)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>ax1.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>ax1.grid(<span class="va">True</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Men's Model Validation Scores"</span>)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>years_womens <span class="op">=</span> womens_validation_results_df.index.astype(<span class="bu">int</span>)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>ax2.plot(years_womens, womens_validation_results_df[<span class="st">"logit_brier"</span>], <span class="st">'-o'</span>)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>ax2.plot(years_womens, womens_validation_results_df[<span class="st">"xgb_brier"</span>], <span class="st">'-o'</span>)</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>ax2.legend([<span class="st">"Logistic Regression"</span>, <span class="st">"XGBoost"</span>])</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">"Season"</span>)</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"Brier Score"</span>)</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>ax2.set_xlim(<span class="dv">2011</span>, <span class="dv">2025</span>)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>ax2.set_xticks(years_womens)</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'x'</span>, rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>ax2.grid(<span class="va">True</span>)</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Women's Model Validation Scores"</span>)</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <pre><code>Processing mens tournament...
 Skipping Optuna, using frozen mens Elo params
 Skipping Optuna, using frozen mens XGBoost params
@@ -268,7 +249,7 @@ Skipping Optuna, using frozen mens XGBoost params
 Validation results:
 
 
-100%|██████████| 22/22 [00:11&lt;00:00,  1.88it/s]
+100%|██████████| 22/22 [00:11&lt;00:00,  1.97it/s]
 
 
 Processing womens tournament...
@@ -278,7 +259,7 @@ Skipping Optuna, using frozen womens XGBoost params
 Validation results:
 
 
-100%|██████████| 15/15 [00:06&lt;00:00,  2.42it/s]</code></pre>
+100%|██████████| 15/15 [00:04&lt;00:00,  3.41it/s]</code></pre>
 <p><img src="march_madness_showcase_files/march_madness_showcase_1_4.png" class="img-fluid"></p>
 <section id="modeling" class="level3" data-number="0.1">
 <h3 data-number="0.1" class="anchored" data-anchor-id="modeling"><span class="header-section-number">0.1</span> Modeling</h3>
@@ -346,7 +327,18 @@ Validation results:
 <section id="takeaways-and-future-expansion" class="level3" data-number="0.4">
 <h3 data-number="0.4" class="anchored" data-anchor-id="takeaways-and-future-expansion"><span class="header-section-number">0.4</span> Takeaways and Future Expansion</h3>
 <p>This was a fun project and one where I could use my skills and learn some new things too. Although I have experience with boosted ensemble learners, this was the first time working with the XGBoost package specifically, but along with Optuna probably won’t be my last.</p>
-<p>If I partake in next year’s challenge there will certainly be no shortage of new things to try. Here are only a few that I’ve considered: - Test the other leading ensemble learners: LightGBM and CatBoost - Test TabPFN: A neural net optimized for tabular data - Implement Monte Carlo bracket simulation - Further improve upset prediction: - Create a second model solely to predict upset probabilities - Shrink seed impact - Bias regular season upset features</p>
+<p>If I partake in next year’s challenge there will certainly be no shortage of new things to try. Here are only a few that I’ve considered:</p>
+<ul>
+<li>Test the other leading ensemble learners: LightGBM and CatBoost</li>
+<li>Test TabPFN: A neural net optimized for tabular data</li>
+<li>Implement Monte Carlo bracket simulation</li>
+<li>Further improve upset prediction:
+<ul>
+<li>Create a second model solely to predict upset probabilities</li>
+<li>Shrink seed impact</li>
+<li>Bias regular season upset features</li>
+</ul></li>
+</ul>
 <p><em>Development was completed locally in VSCode using Copilot for refactoring and Supermaven for line autocompletion</em></p>
 </section>
 
