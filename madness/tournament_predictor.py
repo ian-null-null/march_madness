@@ -96,7 +96,7 @@ class TournamentPredictor:
         else:
             frozen_elo = EloConfig(**self.FROZEN_ELO_PARAMS[gender])
             elo_system = EloSystem(frozen_elo)
-            print(f"Using frozen {gender} Elo params: {self.FROZEN_ELO_PARAMS[gender]}")
+            print(f"Skipping Optuna, using frozen {gender} Elo params")
 
         elos = elo_system.compute_season_ratings(reg_df)
 
@@ -138,7 +138,7 @@ class TournamentPredictor:
             best_xgb_params = self.model_trainer.optimize_xgb_params(x_train, y_train)
         else:
             best_xgb_params = self.FROZEN_XGB_PARAMS[gender].copy()
-            print(f"Using frozen {gender} XGBoost params: {best_xgb_params}")
+            print(f"Skipping Optuna, using frozen {gender} XGBoost params")
 
         _, xgb_model = self.model_trainer.train_models(x_train, y_train, best_xgb_params)
 
