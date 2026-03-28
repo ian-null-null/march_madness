@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ian Graham">
+<meta name="dcterms.date" content="2026-03-27">
 
-<title>My Notebook</title>
+<title>March Madness (Basketball) Prediction with Machine Learning</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -105,22 +107,45 @@ window.Quarto = {
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
-<main class="content" id="quarto-document-content">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-full">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#modeling" id="toc-modeling" class="nav-link active" data-scroll-target="#modeling"><span class="header-section-number">0.1</span> Modeling</a></li>
+  <li><a href="#features" id="toc-features" class="nav-link" data-scroll-target="#features"><span class="header-section-number">0.2</span> Features</a></li>
+  <li><a href="#predictions" id="toc-predictions" class="nav-link" data-scroll-target="#predictions"><span class="header-section-number">0.3</span> Predictions</a></li>
+  <li><a href="#takeaways-and-future-expansion" id="toc-takeaways-and-future-expansion" class="nav-link" data-scroll-target="#takeaways-and-future-expansion"><span class="header-section-number">0.4</span> Takeaways and Future Expansion</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">My Notebook</h1>
+<h1 class="title">March Madness (Basketball) Prediction with Machine Learning</h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-page-left">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ian Graham </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 27, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -130,8 +155,6 @@ window.Quarto = {
 </header>
 
 
-<section id="march-madness-basketball-prediction-with-machine-learning" class="level1">
-<h1>March Madness (Basketball) Prediction with Machine Learning</h1>
 <p>This notebook showcases my submission to the <a href="https://www.kaggle.com/competitions/march-machine-learning-mania-2026/overview">2026 March Madness Kaggle competition</a>. March Madness is a basketball tournament featuring the top U.S. college teams. Sixty-four teams compete in a single-game elimination tournament broken into four rounds. It has long been a tradition in the U.S., whether basketball fan or not, to pick winners and losers and to fill out a March Madness bracket.</p>
 <p>The Kaggle competition approaches this game within a game as an opportunity to harness historical data and machine learning models. I focussed on feature engineering, feature selection, and model optimization. My code is organized into modules to be imported below.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#%%</span></span>
@@ -245,7 +268,7 @@ Skipping Optuna, using frozen mens XGBoost params
 Validation results:
 
 
-100%|██████████| 22/22 [00:09&lt;00:00,  2.31it/s]
+100%|██████████| 22/22 [00:11&lt;00:00,  1.88it/s]
 
 
 Processing womens tournament...
@@ -255,21 +278,16 @@ Skipping Optuna, using frozen womens XGBoost params
 Validation results:
 
 
-100%|██████████| 15/15 [00:05&lt;00:00,  2.54it/s]</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="march_madness_showcase_files/march_madness_showcase_2_4.png" class="img-fluid figure-img"></p>
-<figcaption>png</figcaption>
-</figure>
-</div>
-<section id="modeling" class="level3">
-<h3 class="anchored" data-anchor-id="modeling">Modeling</h3>
+100%|██████████| 15/15 [00:06&lt;00:00,  2.42it/s]</code></pre>
+<p><img src="march_madness_showcase_files/march_madness_showcase_1_4.png" class="img-fluid"></p>
+<section id="modeling" class="level3" data-number="0.1">
+<h3 data-number="0.1" class="anchored" data-anchor-id="modeling"><span class="header-section-number">0.1</span> Modeling</h3>
 <p>Two models were tested: logistic regression and XGBoost. The chart above shows the rolling validation error of the two models for both tournaments. Moving right along the x-axis corresponds to increasing years of training data. For example, the point at 2004 for the men’s tournament was only trained on data from 2003 but the point at 2015 was trained on all the years between 2003 and 2014.</p>
 <p>We see a general decrease in the Brier score for the logistic regression model as it is given more and more training data, the XGBoost model, however, does not have such a drastic improvement and in fact performs fairly well when trained on only one season. XGBoost was used for all remaining modelling.</p>
 <p>ML modeling performance often rests heavily on hyperparameter tuning and for this project I used the package Optuna to find these hyperparameters using optimization. This was my first time using Optuna and I found it very useful by taking some of the trial-and-error out of the modeling tuning process. Not only did I optimize the XGBoost hyperparameters but also the Elo (as discussed below) algorithm’s constants were also tuned.</p>
 </section>
-<section id="features" class="level3">
-<h3 class="anchored" data-anchor-id="features">Features</h3>
+<section id="features" class="level3" data-number="0.2">
+<h3 data-number="0.2" class="anchored" data-anchor-id="features"><span class="header-section-number">0.2</span> Features</h3>
 <p>A significant portion of the project was spent researching, creating, and adjusting model features. <a href="https://www.fromtherumbleseat.com/pages/advanced-basketball-statistics-formula-sheet">From The Rumble Seat</a> was a useful resource for information on advanced statistics used in basketball such as offensive and defensive derived metrics.</p>
 <p>Instead of training the models on the raw features for team A and team B, I created interaction features such as the difference and the ratio between the two teams features.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_feature_importance_grouped(</span>
@@ -301,17 +319,12 @@ Validation results:
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>plot_feature_importance_grouped(mens_impactful_features, womens_impactful_features)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="march_madness_showcase_files/march_madness_showcase_5_0.png" class="img-fluid figure-img"></p>
-<figcaption>png</figcaption>
-</figure>
-</div>
+<p><img src="march_madness_showcase_files/march_madness_showcase_4_0.png" class="img-fluid"></p>
 <p>A very common feature found in sports models is some variation of an <a href="https://en.wikipedia.org/wiki/Elo_rating_system#">Elo rating system</a>. Known best for its use in ranking chess players, the Elo system attempts to rate the ability of a team (or player) in a self-correcting manner. For example, if a high Elo rated team beats a low rated team then the high Elo team only gains a few Elo points from the low rated team, but if the high rated team is upset then they lose many points to the low rated team.</p>
 <p>As seen in the above chart the Elo and seed features were the most predictive.</p>
 </section>
-<section id="predictions" class="level3">
-<h3 class="anchored" data-anchor-id="predictions">Predictions</h3>
+<section id="predictions" class="level3" data-number="0.3">
+<h3 data-number="0.3" class="anchored" data-anchor-id="predictions"><span class="header-section-number">0.3</span> Predictions</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> pd.read_csv(<span class="st">'data/SubmissionStage2.csv'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.hist(preds[<span class="st">'Pred'</span>], bins<span class="op">=</span><span class="dv">100</span>)</span>
@@ -321,12 +334,7 @@ Validation results:
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of Predicted Probability'</span>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="march_madness_showcase_files/march_madness_showcase_8_0.png" class="img-fluid figure-img"></p>
-<figcaption>png</figcaption>
-</figure>
-</div>
+<p><img src="march_madness_showcase_files/march_madness_showcase_7_0.png" class="img-fluid"></p>
 <p>Model predictions were submitted for every possible team matchup from the 2025/2026 season, not just the 64 tournament teams. Combining both the men’s and women’s teams results in over 132 thousand predictions.</p>
 <p>Looking at the histogram above we can see the predictions follow a ‘U’ shaped distribution with distinct modes at the two extremes. This tells us that for a given game the model is most likely to strongly favor one team.</p>
 <p>This is fairly common with sports analytics or betting where the few teams considered to be the strongest are predicted to almost certainly win; statistically, this is a safe bet. Driving the model to this determination are mainly the Elo and seed features. Historically, in tournament games the higher seed team wins about 70% of the time and understandably the model learns this strong probability. The story is similar to Elo, a 1800 Elo rated team is expected to beat a 1600 rated team 76% of the time.</p>
@@ -335,12 +343,11 @@ Validation results:
 <p><span class="math display">\[P_{new} = P + (0.5 - P) \times \lambda\]</span></p>
 <p>The above adjustment pulls extreme predictions <span class="math inline">\(P\)</span> toward the middle, the extent to which is controlled by <span class="math inline">\(\lambda\)</span>. The result of this adjustment can be seen on the histogram as all prediction values are squeezed between ~ 0.08 and 0.92.</p>
 </section>
-<section id="takeaways-and-future-expansion" class="level3">
-<h3 class="anchored" data-anchor-id="takeaways-and-future-expansion">Takeaways and Future Expansion</h3>
+<section id="takeaways-and-future-expansion" class="level3" data-number="0.4">
+<h3 data-number="0.4" class="anchored" data-anchor-id="takeaways-and-future-expansion"><span class="header-section-number">0.4</span> Takeaways and Future Expansion</h3>
 <p>This was a fun project and one where I could use my skills and learn some new things too. Although I have experience with boosted ensemble learners, this was the first time working with the XGBoost package specifically, but along with Optuna probably won’t be my last.</p>
 <p>If I partake in next year’s challenge there will certainly be no shortage of new things to try. Here are only a few that I’ve considered: - Test the other leading ensemble learners: LightGBM and CatBoost - Test TabPFN: A neural net optimized for tabular data - Implement Monte Carlo bracket simulation - Further improve upset prediction: - Create a second model solely to predict upset probabilities - Shrink seed impact - Bias regular season upset features</p>
 <p><em>Development was completed locally in VSCode using Copilot for refactoring and Supermaven for line autocompletion</em></p>
-</section>
 </section>
 
 </main>

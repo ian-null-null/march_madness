@@ -1,9 +1,14 @@
 ---
-title: "My Notebook"
+title: March Madness (Basketball) Prediction with Machine Learning
+author: Ian Graham
+date: March 27, 2026
 execute: 
-  enabled: true
+  enabled: False
+jupyter: python3
+page-layout: full
+toc: true
+number-sections: true
 ---
-# March Madness (Basketball) Prediction with Machine Learning
 
 This notebook showcases my submission to the [2026 March Madness Kaggle competition](https://www.kaggle.com/competitions/march-machine-learning-mania-2026/overview). March Madness is a basketball tournament featuring the top U.S. college teams. Sixty-four teams compete in a single-game elimination tournament broken into four rounds. It has long been a tradition in the U.S., whether basketball fan or not, to pick winners and losers and to fill out a March Madness bracket. 
 
@@ -124,7 +129,7 @@ plt.show()
     Validation results:
 
 
-    100%|██████████| 22/22 [00:09<00:00,  2.31it/s]
+    100%|██████████| 22/22 [00:11<00:00,  1.88it/s]
 
 
     Processing womens tournament...
@@ -134,12 +139,12 @@ plt.show()
     Validation results:
 
 
-    100%|██████████| 15/15 [00:05<00:00,  2.54it/s]
+    100%|██████████| 15/15 [00:06<00:00,  2.42it/s]
 
 
 
     
-![png](march_madness_showcase_files/march_madness_showcase_2_4.png)
+![](march_madness_showcase_files/march_madness_showcase_1_4.png)
     
 
 
@@ -192,7 +197,7 @@ plot_feature_importance_grouped(mens_impactful_features, womens_impactful_featur
 
 
     
-![png](march_madness_showcase_files/march_madness_showcase_5_0.png)
+![](march_madness_showcase_files/march_madness_showcase_4_0.png)
     
 
 
@@ -218,7 +223,7 @@ plt.show()
 
 
     
-![png](march_madness_showcase_files/march_madness_showcase_8_0.png)
+![](march_madness_showcase_files/march_madness_showcase_7_0.png)
     
 
 
