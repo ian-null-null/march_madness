@@ -15,7 +15,7 @@
 # 3. find all instances of [png] and replace with []
 
 # 4. run this: quarto render march_madness_showcase.md
-#!/bin/bash
+!/bin/bash
 
 jupyter nbconvert --to markdown march_madness_showcase.ipynb
 

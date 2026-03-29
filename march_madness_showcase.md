@@ -55,19 +55,21 @@ __all__ = [
 if __name__ == "__main__":
     np.random.seed(9001)
     predictor = TournamentPredictor()
-    mens_model, mens_reg_seasons, mens_validation_results, mens_impactful_features = predictor.train_gender(
-        "mens",
-        optimize_elo=False,
-        optimize_xgb=False,
-        return_diagnostics=True,
+    mens_model, mens_reg_seasons, mens_validation_results, mens_impactful_features \
+        = predictor.train_gender(
+            "mens",
+            optimize_elo=False,
+            optimize_xgb=False,
+            return_diagnostics=True,
 
     )
 
-    womens_model, womens_reg_seasons, womens_validation_results, womens_impactful_features = predictor.train_gender(
-        "womens",
-        optimize_elo=False,
-        optimize_xgb=False,
-        return_diagnostics=True,
+    womens_model, womens_reg_seasons, womens_validation_results, womens_impactful_features \
+        = predictor.train_gender(
+            "womens",
+            optimize_elo=False,
+            optimize_xgb=False,
+            return_diagnostics=True,
 
     )
 mens_validation_results_df = pd.DataFrame(mens_validation_results).transpose()
@@ -110,7 +112,7 @@ plt.show()
     Validation results:
 
 
-    100%|██████████| 22/22 [00:11<00:00,  1.97it/s]
+    100%|██████████| 22/22 [00:11<00:00,  1.92it/s]
 
 
     Processing womens tournament...
@@ -120,7 +122,7 @@ plt.show()
     Validation results:
 
 
-    100%|██████████| 15/15 [00:04<00:00,  3.41it/s]
+    100%|██████████| 15/15 [00:06<00:00,  2.29it/s]
 
 
 
